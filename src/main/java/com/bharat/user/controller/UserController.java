@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.net.InetAddress;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -62,6 +64,11 @@ public class UserController {
     public ResponseEntity<UserExpensesDto> getAllUserDetail(@PathVariable int userId) {
         UserExpensesDto user = userService.getUserExpenseDetails(userId);
         return ResponseEntity.ok(user);
+    }
+
+    @RequestMapping(value = "/os/hostname", method = RequestMethod.GET)
+    public ResponseEntity<String> hostname() throws IOException {
+        return ResponseEntity.ok(InetAddress.getLocalHost().getHostName());
     }
 }
 

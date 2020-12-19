@@ -5,7 +5,7 @@ To run the app prerequisite maven and docker build tools
 After you set up maven and docker tools
 
 . mvn package
-it will package the classes into a executable jar
+it will package the classes into an executable jar
 . docker image -t sample-jpa .
 This command will create an image with name of sample-jpa
 . docker run --name mycontainer -p 8080:8080 sample-jpa
