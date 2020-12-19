@@ -1,14 +1,16 @@
 package com.bharat.user.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
+import javax.persistence.*;
 
 /**
  * Created by BharatBh on 4/24/2017.
  */
-
-@Embeddable
+@Entity
 public class Address {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int addressId;
 
     @Column(name = "address")
     private String addressLine;

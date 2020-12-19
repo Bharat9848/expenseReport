@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
@@ -42,15 +43,17 @@ public class UserService implements IUserService{
     }
 
     @Override
-    public Expense addExpense(int  userId, Expense expense) {
-        User user = userRepository.findOne(userId);
-        if(user.getExpenses() == null){
-            user.setExpenses(new ArrayList<>());
-        }
-        user.getExpenses().add(expense);
-        expense.setUser(user);
-        Expense expenseDb = expenseRepository.save(expense);
-        return expenseDb;
+    public Expense addExpense(int userId, Expense expense) {
+        Optional<User> userOpt = userRepository.findById(userId);
+        return userOpt.map(user -> {
+            if (user.getExpenses() == null) {
+                user.setExpenses(new ArrayList<>());
+            }
+            user.getExpenses().add(expense);
+            expense.setUser(user);
+            Expense expenseDb = expenseRepository.save(expense);
+            return expenseDb;
+        }).orElseThrow(() -> new RuntimeException("No user found"));
     }
 
     @Override
@@ -60,8 +63,8 @@ public class UserService implements IUserService{
 
     @Override
     public UserDto getUserById(int userId) {
-        User user = userRepository.findOne(userId);
-        return mapToDto(user);
+        Optional<User> userOpt = userRepository.findById(userId);
+        return userOpt.map(this::mapToDto).orElseThrow(()-> new RuntimeException("No user found"));
     }
 
     @Override

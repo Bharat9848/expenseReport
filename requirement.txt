@@ -1,1 +1,6 @@
 User can add his expense;
+
+Technical
+Add websecutity config
+Add swagger plugin
+JAXBElementProvider
